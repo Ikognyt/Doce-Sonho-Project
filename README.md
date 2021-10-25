@@ -1,126 +1,83 @@
 # Desafio Java + Spring Framework + JPA
 
-### Objetivos
+### Objetivos - Pendências
 
-Testar os conhecimentos do programador em relação ao desenvolvimento de APIs RESTful baseadas em Java, utilizando
-Spring Boot e JPA.
+- Desafio 1 - Pendente os testes Presente.
+- Desafio 2 - Completo.
+- Desafio 3 - Logica do dos 10 itens mais bem avaliados; Exibição no endpoint.
 
-* Criação de RESTful APIs altamente coesas e de baixo acoplamento, implementadas no modelo MVC (Model-view-controller)
-* Criação/mapeamento de entidades, bem como os relacionamentos entre elas, utilizando anotações
-* Elaboração de testes unitários
 
-### Contexto
+### REST API
 
-Você foi contratado pela loja de chocolates "Doce Sonho" para desenvolver uma aplicação para controle e comércio online
-dos diversos produtos do estabelecimento. A loja vende Chocolates e Bombons por unidade, e possui um sistema de
-avaliação que permite aos consumidores darem notas aos itens do catálogo.
+As Requests que possuem id, são literalmente o id do item que será gerado ao criar. Basta inseri-lo
+e realizar a consulta.
 
-### Escopo Técnico
 
-A aplicação é uma API RESTful que retorna dados em formato JSON. É baseada em Java e utiliza o framework Spring.
-Para deixar este exercício mais simples e independente, um banco de dados relacional em memória é utilizado (H2). O
-projeto utiliza o Gradle para gerenciamento de dependências e construção.
+![image](https://user-images.githubusercontent.com/32139927/138619164-b89ee821-379c-4497-b579-61997635fe54.png)
 
-A sua tarefa será realizar os desafios que envolvem alteração de escopo e esquema listados abaixo. É recomendável que
-os desafios sejam concluídos na ordem que estão dispostos, pois alguns desafios utilizarão resoluções de desafios
-anteriores. Naturalmente, os desafios possuem diversas formas de resolução, mas a coesão e objetividade contarão na
-avaliação. A menos que seja especificado no desafio, você possui toda a liberdade para escolher os nomes para classes
-e _endpoints_.
 
-#### Stack
+De acordo com o CRUD Realizad no Desafio 1 para o package Presente seguem as requests no Padrão Rest
+Para os testes.
 
-* Java 11
-* Spring 2.5.3
-  * Boot
-  * Data JPA
-  * Testing
-  * Actuator
-  * Devtools
-* H2
+- ListaPresentes
 
-### *Building*
+![image](https://user-images.githubusercontent.com/32139927/138619194-3c9fe40d-4f6f-42f0-b807-e3682b8fabce.png)
 
-Após clonar este repositório, basta navegar até o diretório raiz do projeto e executar o comando:
+http://localhost:8080/presentes/listaPresentes
 
-```gradlew bootRun```
+- PresenteById
 
-A aplicação estará disponível na porta 8080. O console do H2 estará disponível no caminho ```/h2-console```, com os
-seguintes parâmetros: 
+![image](https://user-images.githubusercontent.com/32139927/138619217-688bd8b4-ebb3-4b7f-a1e5-15b645730813.png)
+
+http://localhost:8080/presentes/presente/{id}
+
+- DeletePresente
+
+![image](https://user-images.githubusercontent.com/32139927/138619250-7c38ea4a-fdd4-413d-bb28-2b74f9f7a7d7.png)
+
+http://localhost:8080/presentes/presente/deletePresente/{id}
+
+- CriaPresente
+
+![image](https://user-images.githubusercontent.com/32139927/138619299-b1fb792f-8d18-4c6d-9e4a-dab1beaa01a3.png)
+
+http://localhost:8080/presentes/presente/criaPresente
+
+O @RequestBody deve conter os seguintes parâmetros, exemplo:
 
 ```
-URL         : jdbc:h2:mem:desafio-db
-User Name   : desafio
-Password    : desafio
+{
+    "nome": "Imã de geladeira Calendario 1 un - Doce Sonho",
+    "preco": 0.01,
+    "nota": [5]
+}
 ```
+- UpdatePresente
 
-# Desafios
+![image](https://user-images.githubusercontent.com/32139927/138619377-3766a05f-217d-4e5d-a85f-e403a8884c8a.png)
 
-## Desafio 1
+http://localhost:8080/presentes/presente/atualizaPresente/{id}
 
-Ao analisar o histórico de vendas e perguntas realizadas com frequência nos canais de comunicação com os consumidores,
-o proprietário decidiu lançar uma nova categoria de produtos: Kits prontos para presente, contendo uma quantidade
-pré-definida dos itens do catálogo.
-
-Sua tarefa será alterar as classes de Recurso e Serviço (```PresenteResource``` e ```PresenteService```,
-respectivamente) com os _endpoints_ e lógica de acesso aos dados. Os endpoints deverão ser usados para  para obtenção e
-listagem (de todos ou de apenas um, se fornecido um ```id```), criação, alteração e exclusão destes kits. O modelo de
-dados já está criado e é definido pelas classes ```Presente``` e ```ItemPresente```. Os repositórios também já estão
-criados, e você deverá criar quaisquer métodos necessários para as consultas, caso julgue necessário.
-
-##### Dica!
-
-Você basicamente precisa apenas fazer um CRUD da entidade ```Presente```. Os itens do presente são persistidos de forma
-cascateável (ou seja, ao atualizar a entidade ```Presente```, os itens serão atualizados também).
-
-### Desafio 1.1
-
-Elaborar os testes unitários para as funcionalidades descritas no Desafio 1 na classe ```ProdutoTest``` Pode-se utilizar
-os testes da classe ```ChocolateTest``` como referência.
-
-## Desafio 2
-
-Ao analisar as lojas concorrentes, o proprietário da "Doce Sonho" constatou que chocolates a granel geralmente são
-vendidos por peso, e não por unidade.
-
-Sua tarefa será alterar o modelo de dados da classe ```Chocolate```, removendo o parâmetro ```preco```, e incluindo os
-parâmetros ```peso``` e ```precoPorQuilograma```.
-
-#### Dica!
-
-Observe que o parâmetro ```preco``` se encontra na classe ```Produto```, e a classe ```Chocolate``` herda este
-parâmetro, pois estende a classe ```Produto```. Se você tentar resolver esse desafio alterando a classe ```Produto```,
-fará com que os Kits prontos elaborados no Desafio 1 passem a ser vendidos a granel, o que não é o proposto!
-
-Você precisará fazer uso de mais herança! Crie mais classes: ```ProdutoPreco``` e ```ProdutoGranel```, onde ambas
-estendem a classe ```Produto```, e mova o parâmetro ```preco``` da classe ```Produto``` para a classe
-```ProdutoPreco```, e implemente a resolução deste desafio na classe ```ProdutoGranel```.
-
-Por fim, altere a herança da classe ```Chocolate``` para ```ProdutoGranel``` e a ```Presente``` para ```ProdutoPreco```.
-
-Se você concluiu o Desafio 1.1, será necessário alterar os testes unitários, pois eles irão falhar com a alteração do
-modelo de dados 😉
-
-#### Desafio 3
-
-O proprietário deseja saber quais itens do catálogo possuem as melhores avaliações.
-
-Sua tarefa será construir um relatório que exiba os 10 itens com melhores avaliações do catálogo. Ele deverá possuir os
-seguintes campos:
+O @RequestBody deve conter os seguintes parâmetros, exemplo:
 
 ```
-nome: texto
-mediaNotas: fração
+{
+    "nome": "Imã de geladeira Calendario 2 un - Doce Sonho",
+    "preco": 0.05,
+    "nota": [
+        
+    ]
+}
 ```
 
-Você deverá construir este relatório, criando seu modelo de dados (um DTO, não é necessário persisti-lo no banco de
-dados), o serviço para compilação dos dados e o _endpoint_ para chamada pela API.
+### Conclusão
 
-#### Dica!
+O desafio foi sensacional, foi um contato muito forte com todos esses conceitos que até então 
+são novidade para mim. Aprendi demais com o tudo e mesmo sem conseguir completar todos e independente
+do resultado já ganhei muito com tudo isso. A partir desse momento eu sei a onde eu preciso ir para corrigir
+e aperfeiçoar meus conhecimentos na framework. Gostaria de agradecer pela oportunidade do desafio, entrevistas
+e o contato. Obrigado também por acreditarem no meu potencial, caso seja escolhido darei o meu melhor para
+atender as demandas e absorver todo o conteúdo e aprendizado para atingir os resultados e crescer
+junto com a empresa. 
 
-Ataque esse problema em partes - primeiro, crie a classe que conterá o formato de resposta conforme especificado acima,
-em seguida, na classe ```ProdutoService```, crie o método que contém a lógica de negócio (obtém os produtos, calcula a
-média das notas, filtra apenas os produtos com as 10 maiores médias, transforme este resultado no DTO criado
-anteriormente), e, por fim, crie o _endpoint_. A classe ```ChocolateTest``` possui um teste unitário que pode ajudar
-a testar a lógica de negócio rapidamente.
 
-Lembre-se de usar a _Stream API_ do Java 8! Com ela você poderá resolver este desafio de forma simples e elegante 😉
