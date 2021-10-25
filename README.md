@@ -2,7 +2,7 @@
 
 ### Objetivos - Pendências
 
-- Desafio 1 - Pendente os testes Presente.
+- Desafio 1 - Testes PresenteItem.
 - Desafio 2 - Completo.
 - Desafio 3 - Logica do dos 10 itens mais bem avaliados; Exibição no endpoint.
 
